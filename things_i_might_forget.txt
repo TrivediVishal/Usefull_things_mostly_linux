@@ -1,0 +1,6 @@
+#To set battery charging leverl use the following steps
+
+ls /sys/class/power_supply/
+ls /sys/class/power_supply/BAT0 #replace BAT0 with the battery name from the last step if needed
+sudo sh -c "echo 80 > /sys/class/power_supply/BAT0/charge_control_start_threshold" # use only if charge_control_start_threshold is visble in the previous step
+sudo sh -c "echo 88 > /sys/class/power_supply/BAT0/charge_control_end_threshold" # change the 80 or 88 to the desired level.
