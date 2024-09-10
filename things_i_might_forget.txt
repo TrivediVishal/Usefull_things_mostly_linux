@@ -4,3 +4,33 @@ ls /sys/class/power_supply/
 ls /sys/class/power_supply/BAT0 #replace BAT0 with the battery name from the last step if needed
 sudo sh -c "echo 80 > /sys/class/power_supply/BAT0/charge_control_start_threshold" # use only if charge_control_start_threshold is visble in the previous step
 sudo sh -c "echo 88 > /sys/class/power_supply/BAT0/charge_control_end_threshold" # change the 80 or 88 to the desired level.
+
+#to make the above permeneant
+
+sudo nano /etc/systemd/system/battery-charge-end-threshold.service
+
+#paste this in the file which has been opened by the above command
+
+[Unit]
+Description=Set Battery Charge Maximum Limit
+After=multi-user.target
+StartLimitBurst=0
+
+[Service]
+Type=oneshot
+Restart=on-failure
+ExecStart=/bin/bash -c 'echo 80 > /sys/class/power_supply/BAT0/charge_control_end_threshold'
+
+[Install]
+WantedBy=multi-user.target
+
+#once you have save the above file enter the following commands
+
+systemctl enable battery-charge-end-threshold.service
+systemctl daemon-reload
+systemctl start battery-charge-end-threshold.service
+
+Reference for the above: https://ubuntuhandbook.org/index.php/2024/02/limit-battery-charge-ubuntu/
+
+
+------------------------------------------------------------------------------------------------------------
