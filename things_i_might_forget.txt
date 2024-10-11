@@ -34,3 +34,28 @@ Reference for the above: https://ubuntuhandbook.org/index.php/2024/02/limit-batt
 
 
 ------------------------------------------------------------------------------------------------------------
+
+#Get docket desktop to work with Ubuntu 24.04 LTS
+
+1: sudo nano /etc/apparmor.d/opt.docker-desktop.bin.com.docker.backend
+
+2: Add the following in the above file
+
+abi <abi/4.0>,
+
+include <tunables/global>
+
+/opt/docker-desktop/bin/com.docker.backend flags=(default_allow) {
+  userns,
+
+  # Site-specific additions and overrides. See local/README for details.
+  include if exists <local/opt.docker-desktop.bin.com.docker.backend>
+}
+
+3: Run 
+
+sudo systemctl restart apparmor.service
+
+Reference: https://askubuntu.com/questions/1511725/ubuntu-24-04-docker-desktop-is-not-starting/1519662#1519662
+
+---------------------------------------------------------------------
