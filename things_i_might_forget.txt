@@ -58,4 +58,14 @@ sudo systemctl restart apparmor.service
 
 Reference: https://askubuntu.com/questions/1511725/ubuntu-24-04-docker-desktop-is-not-starting/1519662#1519662
 
+
+--
+
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+systemctl --user restart docker-desktop
+pg --generate-key
+pass init <Key that was generated from the previous line>
+
+
 ---------------------------------------------------------------------
